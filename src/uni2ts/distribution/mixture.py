@@ -197,10 +197,11 @@ class MixtureOutput(DistributionOutput):
             weights_logits=len(self.components),
             components=[comp.args_dim for comp in self.components],
         )
-
+    def identity(self,x):
+        return x
     @property
     def domain_map(self) -> PyTree[Callable[[torch.Tensor], torch.Tensor], "T"]:
         return dict(
-            weights_logits=lambda x: x,
+            weights_logits=self.identity,
             components=[comp.domain_map for comp in self.components],
         )
